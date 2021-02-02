@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../public/viewquotes.css"> -->
+    <title>Quote viewer</title>
+<style>
+body{
+  background-image: url('https://images.pexels.com/photos/748626/pexels-photo-748626.jpeg?cs=srgb&dl=sea-landscape-nature-748626.jpg&fm=jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.well{
+  background-color: lightgrey;
+}
+.title{
+  font-family: "Annie Use Your Telescope", cursive;
+  font-size:20px;
+  letter-spacing: 1px;
+  font-weight : bold;
+  margin-left: 10px;
+  color: black;
+}
+.body{
+  font-family: "Annie Use Your Telescope", cursive;
+  font-size:18px;
+  letter-spacing: 1px;
+  font-style: italic;
+  margin-left: 20px;
+  color: grey;
+}
+.author{
+  font-family: "Annie Use Your Telescope", cursive;
+  font-size:20px;
+  letter-spacing: 1px;
+  font-style: italic;
+  margin-left: 20px;
+  font-weight: lighter;
+  color: grey;
+}
+.uniqueTag{
+  text-decoration: underline;
+  color: blue;
+  font-family: "Annie Use Your Telescope", cursive;
+  letter-spacing: 1px;
+  font-size:15px;
+  cursor: pointer;
+  background-color: grey;
+  border: none;
+}
+.delete{
+  color: red;
+  font-size: 17px;
+  letter-spacing: 1px;
+  float: right;
+  font-family: "Annie Use Your Telescope", cursive;
+  font-weight: bold;
+  border:none;
+}
+.update
+{
+  font-size: 17px;
+  letter-spacing: 1px;
+  float: right;
+  font-family: "Annie Use Your Telescope", cursive;
+  font-weight: bold;
+}
+.input_body{
+  width : 50%;
+}
+.input_author{
+  width : 20%;
+}
+.delete:hover{
+  color: red;
+}
+
+.btn-danger {
+  background-color: red;
+  color: #fff;
+  outline: none;
+  border: none;
+  padding: .5rem 1.2rem;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+    <div class="viewquotes">
+   </div>
+
+
+    <script>
+        const viewquotes = document.querySelector('.viewquotes');
+        fetch('/get/quotes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+
+                    viewquotes.insertAdjacentHTML('afterbegin' ,"<div class='well'><p class='title'>" + data[i].title + "</p><form class='delete' action=/delete/" + data[i]._id + "/quote  method='post'><button class='btn-danger submit'>delete</button></form><p class='body'>" + data[i].body + "</p><p class='author'> ~ " + data[i].author + "</p></div>")
+                }
+            })
+    </script>
+
+</body>
+
+</html>
